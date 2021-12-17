@@ -18,7 +18,7 @@ public class PortfolioController {
     @Autowired
     private PortfolioService portfolioService;
 
-    @GetMapping("/accountData/{accountId}/portfoilos")
+    @GetMapping("/accounts/{accountId}/portfolio")
     public ResponseEntity<PortfolioResponse> getPortfolioForAccount(@PathVariable(name = "accountId") @NotNull long accountId) {
         PortfolioResponse portfolioResponse = portfolioService.getPortfolioByAccountId(accountId);
         return ResponseEntity.ok(portfolioResponse);
