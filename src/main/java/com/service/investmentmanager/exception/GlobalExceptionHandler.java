@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
 
         GlobalExceptionResponse exceptionResponse = createGlobalExceptionResponse(404, "Account number not found", exception.getMessage());
 
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = RuntimeException.class)
@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
 
         GlobalExceptionResponse exceptionResponse = createGlobalExceptionResponse(500, "Internal server error", exception.getMessage());
 
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private GlobalExceptionResponse createGlobalExceptionResponse(int code, String message, String innerMessage) {
