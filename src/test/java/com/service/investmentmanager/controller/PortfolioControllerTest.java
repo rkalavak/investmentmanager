@@ -62,7 +62,7 @@ class PortfolioControllerTest {
         Mockito.when(portfolioService.getPortfolioByAccountId(1l)).thenReturn(portfolioResponse);
 
         String response = mockMvc.perform(MockMvcRequestBuilders
-                        .get("http://localhost:" + port + "/api/customers/accounts/1/portfolio")
+                        .get("http://localhost:" + port + "/api/accounts/1/portfolio")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(MockMvcResultHandlers.print())
