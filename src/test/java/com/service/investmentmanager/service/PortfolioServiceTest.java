@@ -17,6 +17,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class PortfolioServiceTest {
@@ -35,17 +36,17 @@ class PortfolioServiceTest {
 
         ReflectionTestUtils.setField(portfolioService, "stockPrice", 300);
 
-        AccountData accountData = AccountData.builder().accountId(1l).build();
-        Mockito.when(accountRepository.getById(1l)).thenReturn(accountData);
+        Optional<AccountData> accountData = Optional.of(AccountData.builder().accountId(1l).balance(300d).build());
+        Mockito.when(accountRepository.findById(1l)).thenReturn(accountData);
         List<PortfolioData> portfolioDataList = new ArrayList<>();
         PortfolioData apple = PortfolioData.builder().orderId(1l).stockName("Apple").stockQuantity(10).purchasePrice(300l).build();
         portfolioDataList.add(apple);
-        Mockito.when(portfolioRepository.getPortfolioByAccountData(accountData)).thenReturn(portfolioDataList);
+        Mockito.when(portfolioRepository.getPortfolioByAccountData(Mockito.any())).thenReturn(portfolioDataList);
 
         List<Portfolio> portfolioDetails = new ArrayList<>();
-        Portfolio portfolio = Portfolio.builder().stockName("Apple").stockQuantity(10).purchasePrice(500).stockPrice(300).stockValue(2000.0).build();
+        Portfolio portfolio = Portfolio.builder().stockName("Apple").stockQuantity(10).purchasePrice(300).stockPrice(300).stockValue(2000.0).build();
         portfolioDetails.add(portfolio);
-        PortfolioResponse expected = PortfolioResponse.builder().totalPortfolioValue(20000.0).accountBalance(500000.0).portfolioDetails(portfolioDetails).build();
+        PortfolioResponse expected = PortfolioResponse.builder().totalPortfolioValue(2000.0).accountBalance(300.0).portfolioDetails(portfolioDetails).build();
 
         PortfolioResponse actual = portfolioService.getPortfolioByAccountId(1l);
 
